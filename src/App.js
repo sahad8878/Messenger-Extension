@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import TagList from './Components/TagList';
+import TagEditor from './Components/TagEditor';
 
 function App() {
+  const [tags, setTags] = useState([]);
+
+  const handleTagCreate = (tagName) => {
+    const newTag = {
+      id: Math.random().toString(),
+      name: tagName,
+      color: getRandomColor(),
+    };
+    setTags([...tags, newTag]);
+  };
+
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div>
+    <h1>Messenger Matic Extension</h1>
+    <TagList tags={tags} />
+    <TagEditor onTagCreate={handleTagCreate} />
+  </div>
   );
 }
 
